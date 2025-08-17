@@ -1,0 +1,21 @@
+{
+  "name": "teamack",
+  "version": "1.0.0",
+  "description": "Prototype peer-to-peer resource exchange for the Commons Engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/commons.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@chainsafe/libp2p-noise": "^16.1.4",
+    "@libp2p/mplex": "^11.0.46",
+    "@libp2p/tcp": "^10.1.18",
+    "@multiformats/multiaddr": "^12.5.1",
+    "libp2p": "^2.9.0"
+  }
+}
