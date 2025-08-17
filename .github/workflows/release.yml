@@ -1,0 +1,60 @@
+name: release
+on:
+  push:
+    tags: ["v*"]
+jobs:
+  build-matrix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            target: macos
+          - os: windows-latest
+            target: windows
+          - os: ubuntu-latest
+            target: linux
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with: { channel: stable }
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Build desktop apps
+        if: matrix.target == 'macos' || matrix.target == 'windows' || matrix.target == 'linux'
+        run: |
+          ./scripts/setup_dev.sh
+          # build Flutter desktop app
+          if [ "${{ matrix.target }}" = "macos" ]; then
+            (cd apps/desktop && flutter build macos)
+            # package DMG (use create-dmg or appdmg)
+            ./scripts/package_macos.sh
+          elif [ "${{ matrix.target }}" = "windows" ]; then
+            (cd apps/desktop && flutter build windows)
+            ./scripts/package_windows.ps1
+          else
+            (cd apps/desktop && flutter build linux)
+            ./scripts/package_appimage.sh
+          fi
+      - name: Build headless binaries (linux only)
+        if: matrix.target == 'linux'
+        run: |
+          rustup target add x86_64-unknown-linux-gnu aarch64-unknown-linux-gnu
+          cargo build -p sovr-headless --release --target x86_64-unknown-linux-gnu
+          cargo build -p sovr-headless --release --target aarch64-unknown-linux-gnu
+          tar czf sovr-headless-linux-x64.tar.gz -C target/x86_64-unknown-linux-gnu/release sovr-headless
+          tar czf sovr-headless-linux-aarch64.tar.gz -C target/aarch64-unknown-linux-gnu/release sovr-headless
+      - name: Upload artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            SOVR-macos-universal.dmg
+            SOVR-windows-x64.exe
+            SOVR-linux-x64.AppImage
+            sovr-headless-linux-x64.tar.gz
+            sovr-headless-linux-aarch64.tar.gz
+            sovr-starter-pack.zip
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
