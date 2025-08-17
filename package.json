@@ -4,7 +4,7 @@
   "description": "Prototype peer-to-peer resource exchange for the Commons Engine",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
     "start": "node src/commons.js"
   },
   "keywords": [],
