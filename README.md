@@ -34,6 +34,10 @@ npm test
 
 This runs a small suite verifying encryption and message handling.
 
+## Roadmap
+
+See [ROADMAP.md](ROADMAP.md) for upcoming plans.
+
 ## License
 
 This project is licensed under the ISC License. See [LICENSE](LICENSE) for details.
