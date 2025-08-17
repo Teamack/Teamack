@@ -41,3 +41,13 @@ See [ROADMAP.md](ROADMAP.md) for upcoming plans.
 ## License
 
 This project is licensed under the ISC License. See [LICENSE](LICENSE) for details.
+
+### Social Layer (alpha)
+This branch introduces the social layer:
+- Profiles & follows (sovr-graph, sovr-profile)
+- Posts & timeline (sovr-feed)
+- Groups & Pages (sovr-groups, sovr-pages)
+- Moderation (sovr-moderation)
+- Flutter tabs: Feed, Explore, Groups, Pages, Profile
+
+Generate FRB bindings from bridges/flutter/bridge.rs before building UIs.

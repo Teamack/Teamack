@@ -1,0 +1,16 @@
+[workspace]
+members = [
+  "crates/sovr-core",
+  "crates/sovr-graph",
+  "crates/sovr-profile",
+  "crates/sovr-feed",
+  "crates/sovr-pages",
+  "crates/sovr-groups",
+  "crates/sovr-media",
+  "crates/sovr-moderation",
+  "apps/headless",
+]
+resolver = "2"
+
+[profile.release]
+lto = "thin"
